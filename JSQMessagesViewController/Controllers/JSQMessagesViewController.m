@@ -269,6 +269,16 @@ JSQMessagesKeyboardControllerDelegate>
 
     [self jsq_configureMessagesViewController];
     [self jsq_registerForNotifications:YES];
+	
+	// iPhone X -> https://stackoverflow.com/questions/46439975/jsqmessageviewcontroller-ios11-toolbar
+	if (@available(iOS 11.0, *)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+		NSLayoutConstraint *constraint = [self performSelector:@selector(toolbarBottomLayoutGuide)];
+#pragma clang diagnostic pop
+		constraint.priority = 999;
+		[self.inputToolbar.bottomAnchor constraintLessThanOrEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated
